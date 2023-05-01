@@ -1,0 +1,21 @@
+.table-my-style {
+    width:100%; 
+    border-collapse: collapse;
+    border: 1px solid black;    
+}
+.table-my-style tbody tr td {
+    border: 1px solid black;
+    padding: 5px 10px;
+}
+.table-my-style thead tr th {
+    border: 1px solid black;
+    padding: 5px 10px;
+}
+.tr-grouping {
+    color: black; 
+    background-color: gray;
+}
+.tr-subgrouping {
+    color: black; 
+    background-color: orange;
+}

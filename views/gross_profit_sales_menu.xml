@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_gross_profit_sales_wizard" model="ir.actions.act_window">
+        <field name="name">Report on Gross Profit from Sales</field>
+        <field name="res_model">gross.profit.sale.report.wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="report_gross_profit_sales_wizard"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem 
+        id="menu_report_gross_profit_sales"
+        name="Report on Gross Profit from Sales"
+        action="action_report_gross_profit_sales_wizard"
+        parent="sale.menu_sale_report" 
+        sequence="25" 
+        groups="sales_team.group_sale_salesman,sales_team.group_sale_manager"
+        />
+</odoo>

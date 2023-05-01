@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>  
+        <template id="gross_profit_sale">
+            <!-- <t t-call="web.html_container"> -->
+                <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <link rel="stylesheet" href="/mo_gross_profit_sales_report/static/src/css/report.css"/>
+                    <div class="page">
+                        <center>
+                            <h2><span>Report on Gross Profit from Sales</span></h2>
+                            <div>
+                                <span style="font-size: 18px;">Company</span> : <t t-if="data['company']"> <span style="font-size: 16px;" t-esc="data['company'][1]"/></t>
+                            </div>
+                            <div style="font-size: 16px; font-weight: bold;">
+                                <span>For the period from </span><span t-esc="o.date_from" t-options='{"widget": "date"}'/><span> to </span><span t-esc="o.date_to" t-options='{"widget": "date"}'/>
+                            </div>                            
+                        </center>
+                        <br></br><br></br>
+                        <div class="text-right" style="font-size: 8px; ">
+                            <span>Report Date: </span><span t-esc="report_date" t-options='{"widget": "date"}'/>
+                        </div>                        
+                        <t t-if="data_report">
+                            <table class="table-my-style">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th t-att-colspan="str(colspan)" class="text-center" t-esc="type_of_grouping"></th>
+                                        <th class="text-center">Quantity</th>
+                                        <th class="text-center">Amount of Sales</th>
+                                        <th class="text-center">Cost</th>
+                                        <th class="text-center">Margin</th>
+                                        <th class="text-center">Margin %</th>                                    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="i" t-value="1"/>
+                                    <t t-foreach="data_report" t-as="grouping">
+                                        <tr class="tr-grouping">
+                                            <td t-att-rowspan="str(data_report[grouping]['len_subgrouping']+1)" class="text-right"><span t-esc="i" /></td>
+                                            <td t-att-colspan="str(colspan)" class="text-left"><span t-esc="grouping.name"/></td>
+                                            <td class="text-right"><span t-esc="'{:.2f}'.format(data_report[grouping]['qty_delivered'])"/></td>
+                                            <td class="text-right"><span t-esc="'{:.2f}'.format(data_report[grouping]['price_subtotal'])"/></td>
+                                            <td class="text-right"><span t-esc="'{:.2f}'.format(data_report[grouping]['cost'])"/></td>
+                                            <td class="text-right"><span t-esc="'{:.2f}'.format(data_report[grouping]['margin'])"/></td>
+                                            <td class="text-right"><span t-esc="'{:.2f}'.format(data_report[grouping]['margin_percent'])"/></td>                                                                                                                 
+                                        </tr>
+                                        <t t-set="sub" t-value="1"/>
+                                        <t t-if="three_groupings">
+                                            <t t-set="sub_class" t-value="'tr-subgrouping'"/>    
+                                        </t>
+                                        <t t-else="">
+                                            <t t-set="sub_class" t-value="'tr-no_subgrouping'"/>
+                                        </t>
+                                        
+                                        <t t-foreach="data_report[grouping]['subgrouping']" t-as="subgrouping">
+                                            <tr t-att-class="sub_class">
+                                                <t t-if="three_groupings">                                                
+                                                    <td t-att-rowspan="str(data_report[grouping]['subgrouping'][subgrouping]['len_subgrouping']+1)" class="text-right"><span t-esc="sub" /></td>    
+                                                </t>
+                                                <t t-else="">
+                                                    <td class="text-right"><span t-esc="sub" /></td>
+                                                </t>
+                                                <td t-att-colspan="str(colspan-1)" class="text-left"><span t-esc="subgrouping.display_name"/></td>
+                                                <td class="text-right"><span t-esc="'{:.2f}'.format(data_report[grouping]['subgrouping'][subgrouping]['qty_delivered'])"/></td>
+                                                <td class="text-right"><span t-esc="'{:.2f}'.format(data_report[grouping]['subgrouping'][subgrouping]['price_subtotal'])"/></td>
+                                                <td class="text-right"><span t-esc="'{:.2f}'.format(data_report[grouping]['subgrouping'][subgrouping]['cost'])"/></td>
+                                                <td class="text-right"><span t-esc="'{:.2f}'.format(data_report[grouping]['subgrouping'][subgrouping]['margin'])"/></td> 
+                                                <td class="text-right"><span t-esc="'{:.2f}'.format(data_report[grouping]['subgrouping'][subgrouping]['margin_percent'])"/></td>                                            
+                                            </tr>
+                                            <t t-if="three_groupings">
+                                                <t t-set="sub2" t-value="1"/>
+                                                <t t-foreach="data_report[grouping]['subgrouping'][subgrouping]['sub2_grouping']" t-as="sub2_grouping">
+                                                    <tr>
+                                                        <td class="text-right"><span t-esc="sub2" /></td>
+                                                        <td class="text-left"><span t-esc="sub2_grouping.display_name"/></td>
+                                                        <td class="text-right"><span t-esc="'{:.2f}'.format(data_report[grouping]['subgrouping'][subgrouping]['sub2_grouping'][sub2_grouping]['qty_delivered'])"/></td>
+                                                        <td class="text-right"><span t-esc="'{:.2f}'.format(data_report[grouping]['subgrouping'][subgrouping]['sub2_grouping'][sub2_grouping]['price_subtotal'])"/></td>
+                                                        <td class="text-right"><span t-esc="'{:.2f}'.format(data_report[grouping]['subgrouping'][subgrouping]['sub2_grouping'][sub2_grouping]['cost'])"/></td>
+                                                        <td class="text-right"><span t-esc="'{:.2f}'.format(data_report[grouping]['subgrouping'][subgrouping]['sub2_grouping'][sub2_grouping]['margin'])"/></td> 
+                                                        <td class="text-right"><span t-esc="'{:.2f}'.format(data_report[grouping]['subgrouping'][subgrouping]['sub2_grouping'][sub2_grouping]['margin_percent'])"/></td>                                            
+                                                    </tr>        
+                                                    <t t-set="sub2" t-value="sub2+1"/>           
+                                                </t>                                                                                    
+                                            </t> 
+                                            <t t-set="sub" t-value="sub+1"/>                                            
+                                        </t>
+                                        <t t-set="i" t-value="i+1"/>
+                                    </t>                                    
+                                </tbody>
+                            </table>
+                        </t>                    
+                    </div>                    
+                </t>
+                </t>
+            <!-- </t> -->
+        </template>        
+   
+</odoo>
